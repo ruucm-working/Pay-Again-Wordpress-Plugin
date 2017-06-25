@@ -62,6 +62,6 @@ function delete_pay_again_method() {
 }
 
 function show_delete_payment_method_button( $atts ) {
-	echo '<button class="pay-again-delete-payment-button">Delete Payment Method</button>';
+	echo '<button class="pay-again-delete-payment-button button">Delete Payment Method</button>';
 }
 add_shortcode('delete_pay_again_method', 'show_delete_payment_method_button');
