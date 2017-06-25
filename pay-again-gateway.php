@@ -52,10 +52,16 @@ function pay_again_enque_scripts() {
 	));
 }
 
-add_action( 'wp_ajax_nopriv_do_pay_again', 'do_pay_again' );
-add_action( 'wp_ajax_do_pay_again', 'do_pay_again' );
-function do_pay_again() {
-	do_action( 'woocommerce_scheduled_subscription_payment_' . 'iamport_pay_again', 601, '' );
-	echo 'hey!';
+add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' );
+add_action( 'wp_ajax_delete_pay_again_method', 'delete_pay_again_method' );
+function delete_pay_again_method() {
+	$gateway_pay_again = new WC_Gateway_Pay_Again();
+	$gateway_pay_again->deleteCurrentPayAgainCustomer();
+	echo '카드정보 삭제에 성공했습니다';
 	die();
 }
+
+function show_delete_payment_method_button( $atts ) {
+	echo '<button class="pay-again-delete-payment-button">Delete Payment Method</button>';
+}
+add_shortcode('delete_pay_again_method', 'show_delete_payment_method_button');

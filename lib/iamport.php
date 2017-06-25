@@ -224,6 +224,20 @@ if ( !class_exists('WooIamport') ) {
 			}
 		}
 
+		public function subscribeCustomerGet($customer_uid) {
+			try {
+				$response = $this->getResponse(self::SBCR_CUSTOMER_URL.$customer_uid);
+			    
+			    return new WooIamportResult(true, $response);
+			} catch(WooIamportAuthException $e) {
+				return new WooIamportResult(false, null, array('code'=>$e->getCode(), 'message'=>$e->getMessage()));
+			} catch(WooIamportRequestException $e) {
+				return new WooIamportResult(false, null, array('code'=>$e->getCode(), 'message'=>$e->getMessage()));
+			} catch(Exception $e) {
+				return new WooIamportResult(false, null, array('code'=>$e->getCode(), 'message'=>$e->getMessage()));
+			}
+		}
+
 		public function customer_delete($customer_uid) {
 			try {
 				$access_token = $this->getAccessCode();

@@ -2,7 +2,6 @@
 class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 
 	public function __construct() {
-
 		//settings
 		$this->id = 'iamport_pay_again'; //id가 먼저 세팅되어야 init_setting가 제대로 동작
 		$this->method_title = '아임포트(비인증 결제)';
@@ -24,15 +23,9 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 
 		if ( class_exists( 'WC_Pay_Again_Order' ) ) {
 			add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array( $this, 'scheduled_subscription_payment' ), 10, 2 );
-			// add_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'cancelled_subscription' ), 10, 1 );
 			add_filter( 'woocommerce_credit_card_form_fields', array( $this, 'iamport_credit_card_form_fields' ), 10, 2);
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_iamport_script') );
-
-
-			add_action( 'a_action', array( $this, 'print_a' ), 10, 2 );
-
-			logw('a_action action added');
-
+			add_action( 'a_action', array( $this, 'print_a' ), 10, 2 );	
 		}
 	}
 
@@ -139,10 +132,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		}
 	}
 
-	public function print_a() {
-		logw('a is printed');
-	}
-
 	public function process_payment( $order_id, $retry = true ) {
 		return $this->process_pay_again( $order_id, $retry );
 	}
@@ -180,23 +169,44 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 	}
 
 	public function is_first_payment() {
-		$order_statuses = array('wc-on-hold', 'wc-processing', 'wc-completed');
-		$customer_user_id = get_current_user_id(); // current user ID here for example
-		$customer_orders=get_posts( array(
-				'meta_key' => '_customer_user',
-				'meta_value' => $customer_user_id,
-				'post_type' => 'shop_order', 
-				'post_status' => $order_statuses,
-				'numberposts' => -1
-		) );
+		$result = $this->getPayAgainCustomer()->success;
+		if ($result == null) return true;
+		elseif ($result == 1) return false;
+		else return false;
+	}
 
-		foreach($customer_orders as $customer_order){
-			$order_id = $customer_order->ID;
-			$payment_method =  get_post_meta( $order_id, '_payment_method', true );
-			if ($payment_method == 'iamport_pay_again')
-				return false;
+	public function deleteCurrentPayAgainCustomer() {
+		try {
+			require_once(dirname(__FILE__).'/lib/iamport.php');
+			$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
+			$prefix = get_option('_iamport_customer_prefix');
+			if ( empty($prefix) ) echo '구매자 정보가 없습니다';
+			$user_id = get_current_user_id();
+			if ( empty($user_id) )		throw new Exception( __( "비인증 결제기능은 로그인된 사용자만 사용하실 수 있습니다.", 'iamport-for-woocommerce' ), 1);
+
+			$customer_uid = $prefix . 'c' . $user_id;
+			$iamport->customer_delete($customer_uid);
+			return true;
+		} catch(Exception $e) {
+			return new WP_Error( 'iamport_error', $e->getMessage() );
 		}
-		return true;
+	}
+
+	public function getPayAgainCustomer() {
+		try {
+			require_once(dirname(__FILE__).'/lib/iamport.php');
+			$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
+			$prefix = get_option('_iamport_customer_prefix');
+			if ( empty($prefix) ) echo '구매자 정보가 없습니다';
+			$user_id = get_current_user_id();
+			if ( empty($user_id) )		throw new Exception( __( "비인증 결제기능은 로그인된 사용자만 사용하실 수 있습니다.", 'iamport-for-woocommerce' ), 1);
+
+			$customer_uid = $prefix . 'c' . $user_id;
+			$result = $iamport->subscribeCustomerGet($customer_uid);
+			return $result;
+		} catch(Exception $e) {
+			return new WP_Error( 'iamport_error', $e->getMessage() );
+		}
 	}
 
 	/**
