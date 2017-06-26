@@ -1,10 +1,11 @@
 <?php
 /**
  *	Plugin Name: Pay Again Gateway
- *	Description: 
+ *	Plugin URI: https://github.com/ruucm/Pay-Again-Wordpress-Plugin
+ *	Description: 아임포트 비인증결제를 위한 워드프레스 플러그인
  *	Version:     0.0.1
  *	Author:      Ruucm
- *	Author URI:  ruucm.me
+ *	Author URI:  https://ruucm.me
  */
 
 require_once("class-pay-again-order.php"); 
