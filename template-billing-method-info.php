@@ -1,71 +1,57 @@
-
-
-
-
 <div class="payagain-cardpan">
-	
-		<ul class="paymentlist payagain-cardedit">
-		<!-- 	<div class="payagain-cardeditmsg">
-				<h3 class="text-center">보유하신 카드 정보</h3>
-			</div> -->
-			<li>
-				<div class="payagain-cardplate-wrap">
-					<?php
-						$gateway_pay_again = new WC_Gateway_Pay_Again();
-						$res = $gateway_pay_again->getPayAgainCustomer();
-						if ($res->success):
-					?>
-					<div class="payagain-cardplate active">
-						<div class="payagain-card-name">
-							<?php echo $res->data->card_name; ?>
-						</div>
-						<div class="payagain-card-details">
-							<i class="icon ion-card"></i>
-							<div class="payagain-card-number">
-								<div class="cardnum-dot">
-									<?php
-									if ($res->data->card_number) {
-										echo '<div class="cardnum-dot">
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-								</div>
-								<div class="cardnum-dot">
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-								</div>
-								<div class="cardnum-dot">
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-									<i class="icon ion-record"></i>
-								</div>';
-										echo substr($res->data->card_number, -4);
-									}
-									else
-										echo '카드 번호는 보안상 이유로 가려져 있습니다';
-									?>
-								</div>
-							</div>
-							<div class="payagain-added-date">추가된 날짜 : <?php echo gmdate("Y-m-d", $res->data->updated + 3600 * 9); ?></div>
-							<!-- <a class="pay-again-delete-payment-button">삭제</a> -->
-							<i class="pay-again-delete-payment-button icon ion-close-circled"></i>
-						</div>
+	<ul class="paymentlist payagain-cardedit">
+		<li>
+			<div class="payagain-cardplate-wrap">
+				<?php
+					$gateway_pay_again = new WC_Gateway_Pay_Again();
+					$res = $gateway_pay_again->getPayAgainCustomer();
+					if ($res->success):
+				?>
+				<div class="payagain-cardplate active">
+					<div class="payagain-card-name">
+						<?php echo $res->data->card_name; ?>
 					</div>
-					<?php
-						else:
-							echo '등록하신 카드 정보가 없습니다';
-						endif;
-					?>
+					<div class="payagain-card-details">
+						<i class="icon ion-card"></i>
+						<div class="payagain-card-number">
+							<div class="cardnum-dot">
+								<?php
+								if ($res->data->card_number) {
+									echo '<div class="cardnum-dot">
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+							</div>
+							<div class="cardnum-dot">
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+							</div>
+							<div class="cardnum-dot">
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+								<i class="icon ion-record"></i>
+							</div>';
+									echo substr($res->data->card_number, -4);
+								}
+								else
+									echo '카드 번호는 보안상 이유로 가려져 있습니다';
+								?>
+							</div>
+						</div>
+						<div class="payagain-added-date">추가된 날짜 : <?php echo gmdate("Y-m-d", $res->data->updated + 3600 * 9); ?></div>
+						<i class="pay-again-delete-payment-button icon ion-close-circled"></i>
+					</div>
 				</div>
-			</li>
-
-		</ul>
-
-
+				<?php
+					else:
+						echo '등록하신 카드 정보가 없습니다';
+					endif;
+				?>
+			</div>
+		</li>
+	</ul>
 </div>
-
-

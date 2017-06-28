@@ -59,6 +59,7 @@
         line-height: 10px; }
       .payagain-cardpan .active .payagain-card-details .pay-again-delete-payment-button {
         float: right;
+        cursor: pointer;
         font-size: 20px;
         color: #E43F1A;
         text-decoration: none;
