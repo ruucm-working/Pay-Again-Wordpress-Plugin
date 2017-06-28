@@ -11,6 +11,10 @@
 	background-color: #fff;
 	border-radius: 3px;
 	padding: 15px 15px 0 15px;
+	ul
+	{
+		list-style-type: none;
+	}
 }
 .payagain-cardedit {
 	li {
@@ -40,10 +44,12 @@
 	}
 	a {
 		float: right;
-		font-size: 32px;
+		font-size: 20px;
 		color: #999;
 		text-decoration: none;
 		box-shadow: none !important;
+		height: 42px;
+		line-height: 42px;
 	}
 }
 .payagain-cardpan {

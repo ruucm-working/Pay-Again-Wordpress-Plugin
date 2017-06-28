@@ -23,6 +23,8 @@
   background-color: #fff;
   border-radius: 3px;
   padding: 15px 15px 0 15px; }
+  .payagain-cardpan ul {
+    list-style-type: none; }
 
 .payagain-cardedit li {
   padding: 20px 30px; }
@@ -47,10 +49,12 @@
     content: ''; }
   .payagain-cardplate a {
     float: right;
-    font-size: 32px;
+    font-size: 20px;
     color: #999;
     text-decoration: none;
-    box-shadow: none !important; }
+    box-shadow: none !important;
+    height: 42px;
+    line-height: 42px; }
 
 .payagain-cardpan .active {
   border: 2px solid #20B292; }
