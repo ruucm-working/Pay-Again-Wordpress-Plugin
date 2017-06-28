@@ -38,12 +38,13 @@
     .payagain-cardpan .active .payagain-card-details {
       padding: 15px; }
       .payagain-cardpan .active .payagain-card-details div {
-        display: inline-block; }
-      .payagain-cardpan .active .payagain-card-details .ion-card {
-        color: #464CB1;
-        font-size: 43px;
+        display: inline-block;
         height: 43px;
         line-height: 43px; }
+      .payagain-cardpan .active .payagain-card-details .payagain-card-icon {
+        color: #464CB1;
+        font-size: 43px;
+        vertical-align: middle; }
       .payagain-cardpan .active .payagain-card-details .payagain-card-number {
         margin-left: 10px; }
       .payagain-cardpan .active .payagain-card-details .cardnum-dot {

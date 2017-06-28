@@ -12,7 +12,9 @@
 						<?php echo $res->data->card_name; ?>
 					</div>
 					<div class="payagain-card-details">
-						<i class="icon ion-card"></i>
+						<div class="payagain-card-icon">
+							<i class="icon ion-card"></i>
+						</div>
 						<div class="payagain-card-number">
 							<div class="cardnum-dot">
 								<?php

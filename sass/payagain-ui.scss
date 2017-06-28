@@ -30,12 +30,13 @@
 			padding: 15px;
 			div {
 				display: inline-block;
-			}
-			.ion-card {
-				color: $base-color;
-				font-size: 43px;
 				height: 43px;
 				line-height: 43px;
+			}
+			.payagain-card-icon {
+				color: $base-color;
+				font-size: 43px;
+				vertical-align:middle;
 			}
 			.payagain-card-number {
 				margin-left: 10px;
