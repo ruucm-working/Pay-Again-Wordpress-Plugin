@@ -1,22 +1,22 @@
-<div class="cardpan">
+<div class="payagain-cardpan">
 	<!-- 주소입력폼 -->
 	<div class="chkpayment section-bg-white">
 		<!-- 결제수단목록 -->
-		<ul class="paymentlist cardedit">
+		<ul class="paymentlist payagain-cardedit">
 			<li>
-				<div class="cardeditmsg">
+				<div class="payagain-cardeditmsg">
 					<h3 class="text-center">보유하신 카드 정보</h3>
 				</div>
-				<div class="cardplatewrap">
+				<div class="payagain-cardplatewrap">
 					<?php
 						$gateway_pay_again = new WC_Gateway_Pay_Again();
 						$res = $gateway_pay_again->getPayAgainCustomer();
 						if ($res->success):
 					?>
-					<div class="cardplate active">
-						<div class="cardname">[<?php echo $res->data->card_name; ?>]</div>
-						<div class="cardinfo">
-							<div class="cardnumber"><?php
+					<div class="payagain-cardplate active">
+						<div class="payagain-cardname">[<?php echo $res->data->card_name; ?>]</div>
+						<div class="payagain-cardinfo">
+							<div class="payagain-cardnumber"><?php
 								if ($res->data->card_number)
 									echo '**** **** ***** ' . substr($res->data->card_number, -4);
 								else

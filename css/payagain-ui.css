@@ -16,48 +16,51 @@
 /**
  *	IE10+ CSS styles go here
  */
-.cardpan {
+/**
+ *	Billing Method Info
+ */
+.payagain-cardpan {
   background-color: #fff;
   border-radius: 3px;
   padding: 15px 15px 0 15px; }
 
-.cardedit li {
+.payagain-cardedit li {
   padding: 20px 30px; }
-.cardedit .cardeditmsg {
+.payagain-cardedit .payagain-cardeditmsg {
   padding: 5px 0 15px 0; }
-.cardedit .cardplatewrap {
+.payagain-cardedit .payagain-cardplatewrap {
   padding-bottom: 25px; }
 
-.cardbtnwrap {
+.payagain-cardbtnwrap {
   padding: 20px 0; }
 
-.cardplate {
+.payagain-cardplate {
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px 15px;
   margin-bottom: 15px;
   *zoom: 1; }
-  .cardplate:after {
+  .payagain-cardplate:after {
     clear: both;
     display: block;
     content: ''; }
-  .cardplate a {
+  .payagain-cardplate a {
     float: right;
     font-size: 32px;
     color: #999;
     text-decoration: none;
     box-shadow: none !important; }
 
-.cardpan .active {
+.payagain-cardpan .active {
   border: 2px solid #20B292; }
-  .cardpan .active .cardname {
+  .payagain-cardpan .active .payagain-cardname {
     background-color: #25B190; }
-.cardpan .passworddot2 {
+.payagain-cardpan .passworddot2 {
   color: #ccc !important;
   margin-right: 3px; }
 
-.cardaddmemo {
+.payagain-cardaddmemo {
   padding: 20px 0 0 0;
   margin: 20px 0;
   border-top: 1px solid #ddd;
@@ -66,7 +69,7 @@
   font-size: 12px;
   padding-bottom: 0px; }
 
-.cardplate .cardname {
+.payagain-cardplate .payagain-cardname {
   padding: 13px 10px;
   margin-top: 0px;
   float: left;
@@ -81,15 +84,15 @@
   font-size: 12px;
   margin-right: 10px; }
 
-.cardplate .cardinfo {
+.payagain-cardplate .payagain-cardinfo {
   display: inline-block; }
-  .cardplate .cardinfo .cardnumber {
+  .payagain-cardplate .payagain-cardinfo .payagain-cardnumber {
     font-size: 14px;
     color: #333;
     padding-top: 3px;
     margin-bottom: 0px;
     padding-bottom: 0px; }
-  .cardplate .cardinfo .validdate {
+  .payagain-cardplate .payagain-cardinfo .validdate {
     font-size: 12px;
     color: #999;
     padding-top: 0px;

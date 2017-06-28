@@ -4,28 +4,29 @@
 @import 'base/variables';
 @import 'payagain-responsive.scss';
 
-.cardpan {
+/**
+ *	Billing Method Info
+ */
+.payagain-cardpan {
 	background-color: #fff;
 	border-radius: 3px;
 	padding: 15px 15px 0 15px;
 }
-
-.cardedit {
+.payagain-cardedit {
 	li {
 		padding: 20px 30px;
 	}
-	.cardeditmsg {
+	.payagain-cardeditmsg {
 		padding: 5px 0 15px 0;
 	}
-	.cardplatewrap {
+	.payagain-cardplatewrap {
 		padding-bottom: 25px;
 	}
 }
-.cardbtnwrap {
+.payagain-cardbtnwrap {
 	padding: 20px 0;
 }
-
-.cardplate {
+.payagain-cardplate {
 	cursor: pointer;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -45,11 +46,10 @@
 		box-shadow: none !important;
 	}
 }
-
-.cardpan {
+.payagain-cardpan {
 	.active {
 		border: 2px solid #20B292;
-		.cardname {
+		.payagain-cardname {
 			background-color: #25B190;
 		}
 	}
@@ -58,8 +58,7 @@
 		margin-right: 3px;
 	}
 }
-
-.cardaddmemo {
+.payagain-cardaddmemo {
 	padding: 20px 0 0 0;
 	margin: 20px 0;
 	border-top: 1px solid #ddd;
@@ -68,8 +67,7 @@
 	font-size: 12px;
 	padding-bottom: 0px;
 }
-
-.cardplate .cardname {
+.payagain-cardplate .payagain-cardname {
 	padding: 13px 10px;
 	margin-top: 0px;
 	float: left;
@@ -79,16 +77,14 @@
 	margin-right: 15px;
 	border-radius: 3px;
 }
-
 .bankinfo {
 	color: #999;
 	font-size: 12px;
 	margin-right: 10px;
 }
-
-.cardplate .cardinfo {
+.payagain-cardplate .payagain-cardinfo {
 	display: inline-block;
-	.cardnumber {
+	.payagain-cardnumber {
 		font-size: 14px;
 		color: #333;
 		padding-top: 3px;
@@ -102,4 +98,3 @@
 		margin-top: 0px;
 	}
 }
-
