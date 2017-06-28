@@ -20,7 +20,7 @@ function pay_again_init() {
 }
 
 function pay_again_button_text() {
-	return 'Place Order 텍스트 변경';
+	return '결제';
 }
 
 /**
@@ -51,6 +51,7 @@ function pay_again_enque_scripts() {
 	wp_localize_script( 'pay-again-button-js', 'payagain', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' )
 	));
+	wp_enqueue_style( 'payagain-ui-css', plugin_dir_url( __FILE__ ) . 'css/payagain-ui.css' );
 }
 
 add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' );
@@ -62,7 +63,7 @@ function delete_pay_again_method() {
 	die();
 }
 
-function show_delete_payment_method_button( $atts ) {
-	echo '<button class="pay-again-delete-payment-button button">Delete Payment Method</button>';
+function show_pay_again_payment_method_button( $atts ) {
+	include('template-billing-method-info.php');
 }
-add_shortcode('delete_pay_again_method', 'show_delete_payment_method_button');
+add_shortcode('pay-again-billing-method-info', 'show_pay_again_payment_method_button');

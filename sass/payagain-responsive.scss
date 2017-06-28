@@ -1,0 +1,17 @@
+@import 'base/variables';
+
+/**
+ *	Smartphones
+ */
+@media screen and (max-width: 600px) {}
+@media screen and (min-width: 601px) {}
+
+/**
+ *	PC
+ */
+@media screen and (min-width: 1024px) {}
+
+/**
+ *	IE10+ CSS styles go here
+ */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {}

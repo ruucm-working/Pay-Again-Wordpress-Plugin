@@ -169,8 +169,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 	}
 
 	public function is_first_payment() {
-		logw('getPayAgainCustomer : ');
-		logw_a($this->getPayAgainCustomer());
 		$result = $this->getPayAgainCustomer()->success;
 		if ($result == null) return true;
 		elseif ($result == 1) return false;
