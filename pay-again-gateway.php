@@ -52,6 +52,7 @@ function pay_again_enque_scripts() {
 		'ajax_url' => admin_url( 'admin-ajax.php' )
 	));
 	wp_enqueue_style( 'payagain-ui-css', plugin_dir_url( __FILE__ ) . 'css/payagain-ui.css' );
+	wp_enqueue_style( 'payagain-ionicons', plugin_dir_url( __FILE__ ) . 'assets/ion-icon/ionicons.min.css', array() );
 }
 
 add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' );
