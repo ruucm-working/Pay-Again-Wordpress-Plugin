@@ -58,8 +58,11 @@ add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' 
 add_action( 'wp_ajax_delete_pay_again_method', 'delete_pay_again_method' );
 function delete_pay_again_method() {
 	$gateway_pay_again = new WC_Gateway_Pay_Again();
-	$gateway_pay_again->deleteCurrentPayAgainCustomer();
-	echo '카드정보 삭제에 성공했습니다';
+	$res = $gateway_pay_again->deleteCurrentPayAgainCustomer();
+	if ($res)
+		echo '카드정보 삭제에 성공했습니다';
+	else
+		echo '카드정보 삭제에 실패했습니다';
 	die();
 }
 

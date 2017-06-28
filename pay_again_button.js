@@ -8,7 +8,8 @@ jQuery( document ).on( 'click', '.pay-again-delete-payment-button', function() {
 			post_id : post_id
 		},
 		success : function( response ) {
-			alert(response)
+			alert(response);
+			location.reload();
 		}
 	});
 })
