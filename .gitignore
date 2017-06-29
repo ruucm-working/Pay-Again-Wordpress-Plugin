@@ -12,4 +12,6 @@ build
 # misc
 .DS_Store
 .env
+.gitignore
+.sass-cache
 npm-debug.log

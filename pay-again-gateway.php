@@ -68,6 +68,6 @@ function delete_pay_again_method() {
 }
 
 function show_pay_again_payment_method_button( $atts ) {
-	include('template-billing-method-info.php');
+	include('template/template-billing-method-info.php');
 }
 add_shortcode('pay-again-billing-method-info', 'show_pay_again_payment_method_button');
