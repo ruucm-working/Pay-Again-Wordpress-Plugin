@@ -3,7 +3,7 @@
  *	Plugin Name: Pay Again Gateway
  *	Plugin URI: https://github.com/ruucm/Pay-Again-Wordpress-Plugin
  *	Description: 아임포트 비인증결제를 위한 워드프레스 플러그인
- *	Version:     0.0.1
+ *	Version:     1.0.0
  *	Author:      Ruucm
  *	Author URI:  https://ruucm.me
  */
