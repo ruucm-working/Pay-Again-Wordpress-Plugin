@@ -1,13 +1,13 @@
 # Pay-Again-Wordpress-Plugin
 아임포트 비인증결제를 위한 워드프레스 플러그인입니다.
 
-[아임포트 REST API](http://api.iamport.kr)를 이용하여 결제창 없이, 카드번호 입력만을 결제가 가능하게 해줍니다.
+[아임포트 REST API](http://api.iamport.kr)를 이용하여 결제창 없이, 카드번호 입력만으로 결제가 가능하게 해줍니다.
 카드번호는 저장되어, 재결재시에는 다시 카드번호를 입력 하지 않아도 됩니다.
 
 # 사용
 1. 우커머스 설정 - 결제 창에서 '아임포트(비인증 결제)' 탭 클릭
 2. 아임포트(비인증 결제) 결제 사용 체크박스 체크후 결제버튼 텍스트(Title)와, API, API Secret 입력 (아임포트에서 제공)
-3. 고객이 보유한 카드정보 표기를 위한 Shortcode [pay-again-billing-method-info]를 원하는 곳에 입력 (ex. 고객의 My Account 페이 등)
+3. 고객이 보유한 카드정보 표기를 위한 Shortcode [pay-again-billing-method-info]를 원하는 곳에 입력 (ex. 고객의 My Account 페이지 등)
 
 # 카드번호 뒷자리
 입력한 고객의 카드정보는 플러그인을 사용하고 있는 서버에 저장되는것이 아니라, 아임포트 서버에 저장됩니다.
