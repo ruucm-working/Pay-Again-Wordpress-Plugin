@@ -33,16 +33,6 @@ function woocommerce_add_pay_again_gateway($methods) {
 }
 
 /**
- *	Add Jquery
- */
-if (!is_admin()) add_action("wp_enqueue_scripts", "pay_again_jquery_enqueue", 11);
-function pay_again_jquery_enqueue() {
-	wp_deregister_script('jquery');
-	wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js", false, null);
-	wp_enqueue_script('jquery');
-}
-
-/**
  *	Enque Basic Scripts & Jquery Clock Library
  */
 add_action( 'wp_enqueue_scripts', 'pay_again_enque_scripts');
