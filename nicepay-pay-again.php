@@ -4,8 +4,8 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 	public function __construct() {
 		//settings
 		$this->id = 'iamport_pay_again'; //id가 먼저 세팅되어야 init_setting가 제대로 동작
-		$this->method_title = '아임포트(비인증 결제)';
-		$this->method_description = '아임포트를 통해 비인증결제를 사용하실 수 있습니다.';
+		$this->method_title = '나이스페이(비인증 결제)';
+		$this->method_description = '나이스페이 PG사와, 아임포트를 통해 비인증결제를 사용하실 수 있습니다.';
 		$this->has_fields = true;
 		$this->supports = array( 'subscriptions', 'subscription_reactivation', 'subscription_suspension', 'subscription_cancellation', 'refunds' );
 
@@ -47,7 +47,7 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 			'enabled' => array(
 				'title' => __( 'Enable/Disable', 'woocommerce' ),
 				'type' => 'checkbox',
-				'label' => '아임포트(비인증 결제) 결제 사용',
+				'label' => '나이스페이(비인증 결제) 결제 사용',
 				'default' => 'no'
 			),
 			'title' => array(

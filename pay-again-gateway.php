@@ -14,7 +14,7 @@ add_action('plugins_loaded', 'pay_again_init', 0);
 
 function pay_again_init() {
 	if ( !class_exists( 'WC_Payment_Gateway' ) ) return;
-	require_once("pay-again.php"); 
+	require_once("nicepay-pay-again.php"); 
 	add_filter('woocommerce_payment_gateways', 'woocommerce_add_pay_again_gateway' );
 	add_filter( 'woocommerce_order_button_text', 'pay_again_button_text' );
 }
