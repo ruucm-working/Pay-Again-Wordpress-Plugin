@@ -15,6 +15,7 @@ add_action('plugins_loaded', 'pay_again_init', 0);
 function pay_again_init() {
 	if ( !class_exists( 'WC_Payment_Gateway' ) ) return;
 	require_once("nicepay-pay-again.php"); 
+	require_once("inicis-pay-again.php"); 
 	add_filter('woocommerce_payment_gateways', 'woocommerce_add_pay_again_gateway' );
 	add_filter( 'woocommerce_order_button_text', 'pay_again_button_text' );
 }
@@ -28,6 +29,8 @@ function pay_again_button_text() {
 **/
 function woocommerce_add_pay_again_gateway($methods) {
 	$iamport_gateways[] = 'WC_Gateway_Pay_Again';
+	array_push($iamport_gateways,'WC_Gateway_INICIS_Pay_Again');
+
 	$methods = array_merge($methods, $iamport_gateways);
 	return $methods;
 }
