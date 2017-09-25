@@ -96,11 +96,12 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 				'card-pwd-field' => '<p class="form-row form-row-last">
 				<label for="' . esc_attr( $id ) . '-card-pwd">' . '카드비밀번호 앞2자리' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-pwd" class="input-text wc-credit-card-form-card-pwd" type="password" autocomplete="off" placeholder="' . esc_attr__( '카드비밀번호 앞2자리', 'iamport-for-woocommerce' ) . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-pwd' : '' ) . '" maxlength="2"/>
-				</p>'
+				</p>',
+				'add-card-button' => '<button class="button">최초 결제</button>'
 			);
 		} else {
 			$iamoprt_fields = array(
-				'info-field' => '<p>입력하셨던 카드 정보로 결제가 이루어집니다.</p>',
+				'info-field' => '<p>입력하셨던 카드 정보로 결제가 이루어집니다.</p><button class="button">결제</button>',
 			);
 		}
 		return $iamoprt_fields;

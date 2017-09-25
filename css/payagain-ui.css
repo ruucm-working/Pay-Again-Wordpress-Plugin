@@ -17,6 +17,12 @@
  *	IE10+ CSS styles go here
  */
 /**
+ *	Hide Default Checkout Button
+ */
+.woocommerce #place_order {
+  display: none; }
+
+/**
  *	Billing Method Info
  */
 .payagain-cardpan {

@@ -95,26 +95,13 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 
 		if ($this->is_first_payment()) {
 			$iamoprt_fields = array(
-				'card-number-field' => '<p>처음 결제시만 카드번호 입력</p><p class="form-row form-row-first">
-				<label for="' . esc_attr( $id ) . '-card-number">' . '카드번호' . ' <span class="required">*</span></label>
-				<input id="' . esc_attr( $id ) . '-card-number" class="input-text wc-credit-card-form-card-number" type="text" maxlength="20" autocomplete="off" placeholder="•••• •••• •••• ••••" name="' . ( $args['fields_have_names'] ? $this->id . '-card-number' : '' ) . '" />
-				</p>',
-				'card-expiry-field' => '<p class="form-row form-row-last">
-				<label for="' . esc_attr( $id ) . '-card-expiry">' . '만료일(MM/YY)' . ' <span class="required">*</span></label>
-				<input id="' . esc_attr( $id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" type="text" autocomplete="off" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-expiry' : '' ) . '" />
-				</p>',
-				'card-birth-field' => '<p class="form-row form-row-first">
-				<label for="' . esc_attr( $id ) . '-card-birth">' . '카드소지자확인(생년월일 또는 사업자등록번호)' . ' <span class="required">*</span></label>
-				<input id="' . esc_attr( $id ) . '-card-birth" class="input-text wc-credit-card-form-card-birth" type="password" autocomplete="off" placeholder="' . '생년월일 또는 사업자등록번호(법인카드)' . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-birth' : '' ) . '" maxlength="10"/>
-				</p>',
-				'card-pwd-field' => ''
+				'info-field' => '<p>카드 등록을 먼저 하셔야합니다.</p><button class="button" id="inicis-register-card">카드 등록</button>',
 			);
 		} else {
 			$iamoprt_fields = array(
-				'info-field' => '<p>입력하셨던 카드 정보로 결제가 이루어집니다.</p>',
+				'info-field' => '<p>입력하셨던 카드 정보로 결제가 이루어집니다.</p><button class="button">결제</button>',
 			);
 		}
-		$iamoprt_fields = '';
 		return $iamoprt_fields;
 	}
 
@@ -125,10 +112,6 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 		$public_key = $this->get_public_key($private_key, $this->keyphrase());
 		?>
 		<div id="iamport-subscription-card-holder" data-module="<?=$public_key['module']?>" data-exponent="<?=$public_key['exponent']?>">
-		<!-- 	<input type="hidden" name="enc_iamport_pay_again-card-number" value="">
-			<input type="hidden" name="enc_iamport_pay_again-card-expiry" value="">
-			<input type="hidden" name="enc_iamport_pay_again-card-birth" value="">
-			<input type="hidden" name="enc_iamport_pay_again-card-pwd" value=""> -->
 			<?php $this->credit_card_form( array( 'fields_have_names' => false ) ); ?>
 		</div>
 		<?php
@@ -184,6 +167,8 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 			if ( is_wp_error($iamport_response) ) {
 				throw new Exception( sprintf( '비인증 결제 최초 과금(signup fee)에 실패하였습니다. (상세사유 : %s)' , $iamport_response->get_error_message() ) );
 			}
+			logw('$iamport_response : ');
+			logw_a($iamport_response);
 			return $iamport_response;
 		} else if ( $order->get_total() > 0 && !$this->is_first_payment() ) {
 
@@ -274,118 +259,49 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 					'iamport' => $iamport_info,
 					'customer_uid' => $customer_uid
 				);
-				return $result;
+			} else {
+				$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
+				$result = $iamport->sbcr_again(array(
+					'amount' => $amount,
+					// 'vat' => 0,
+					'merchant_uid' => $order->order_key.date('md'),
+					'customer_uid' => $customer_uid,
+					'name' => $this->get_order_name($order, $initial_payment),
+					'buyer_name' => $order->billing_last_name . $order->billing_first_name,
+					'buyer_email' => $order->billing_email,
+					'buyer_tel' => $order->billing_phone
+				));
+
+				$payment_data = $result->data;
+				if ( $result->success ) {
+					if ( $payment_data->status == 'paid' ) {
+						$order_id = $order->id;
+
+						$this->_iamport_post_meta($order_id, '_iamport_rest_key', $this->imp_rest_key);
+						$this->_iamport_post_meta($order_id, '_iamport_rest_secret', $this->imp_rest_secret);
+						$this->_iamport_post_meta($order_id, '_iamport_provider', $payment_data->pg_provider);
+						$this->_iamport_post_meta($order_id, '_iamport_paymethod', $payment_data->pay_method);
+						$this->_iamport_post_meta($order_id, '_iamport_receipt_url', $payment_data->receipt_url);
+						$this->_iamport_post_meta($order_id, '_iamport_customer_uid', $customer_uid);
+
+						$order->add_order_note( sprintf( __( '비인증 결제 회차 과금(%s차결제)에 성공하였습니다. (imp_uid : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $payment_data->imp_uid ) );
+
+						$order->payment_complete( $payment_data->imp_uid );
+					} else {
+						$message = sprintf( __( '비인증 결제 회차 과금(%s차결제)에 실패하였습니다. (status : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $payment_data->status );
+						$order->add_order_note( $message );
+
+						return new WP_Error( 'iamport_error', $message );
+					}
+				} else {
+					$message = sprintf( __( '비인증 결제 회차 과금(%s차결제)에 실패하였습니다. (사유 : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $result->error['message'] );
+
+					$order->add_order_note( $message );
+
+					return new WP_Error( 'iamport_error', $message );
+				}
 			}
-
-			// require_once(dirname(__FILE__).'/lib/iamport.php');
-			
-			// $user_id         = $order->customer_user;
-			// $customer_uid 	 = $this->get_customer_uid($order);
-
-			// if ( $initial_payment ) {
-			// 	$card_number 	= $_POST['enc_iamport_pay_again-card-number'];
-			// 	$expiry 		= $_POST['enc_iamport_pay_again-card-expiry'];
-			// 	$birth 			= $_POST['enc_iamport_pay_again-card-birth'];
-			// 	$pwd_2digit 	= $_POST['enc_iamport_pay_again-card-pwd'];
-
-			// 	$private_key = $this->get_private_key();
-
-			// 	$dec_card_number 	= $this->decrypt( $card_number, $private_key );
-			// 	$dec_expiry			= $this->decrypt( $expiry, $private_key );
-			// 	$dec_birth			= $this->decrypt( $birth, $private_key );
-			// 	$dec_pwd			= $this->decrypt( $pwd_2digit, $private_key );
-
-			// 	if ( empty($dec_card_number) || empty($dec_expiry) || empty($dec_birth) || empty($dec_pwd) ) {
-			// 		return new WP_Error( 'iamport_error', __( '암호화되어 전송된 카드정보를 복호화하는데 실패하였습니다. 관리자에게 문의해주세요.', 'iamport-for-woocommerce' ) );
-			// 	}
-
-			// 	$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
-			// 	$result = $iamport->sbcr_onetime(array(
-			// 		'amount' => $amount,
-			// 		// 'vat' => 0,
-			// 		'merchant_uid' => $order->order_key,
-			// 		'customer_uid' => $customer_uid,
-			// 		'card_number' => $dec_card_number, 
-			// 		'expiry' => $this->format_expiry($dec_expiry),
-			// 		'birth' => $dec_birth,
-			// 		'pwd_2digit' => $dec_pwd,
-			// 		'name' => $this->get_order_name($order, $initial_payment),
-			// 		'buyer_name' => $order->billing_last_name . $order->billing_first_name,
-			// 		'buyer_email' => $order->billing_email,
-			// 		'buyer_tel' => $order->billing_phone
-			// 	));
-
-			// 	$payment_data = $result->data;
-			// 	if ( $result->success ) {
-			// 		if ( $payment_data->status == 'paid' ) {
-			// 			$order_id = $order->id;
-
-			// 			$this->_iamport_post_meta($order_id, '_iamport_rest_key', $this->imp_rest_key);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_rest_secret', $this->imp_rest_secret);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_provider', $payment_data->pg_provider);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_paymethod', $payment_data->pay_method);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_receipt_url', $payment_data->receipt_url);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_customer_uid', $customer_uid);
-
-			// 			$order->add_order_note( sprintf( __( '비인증 결제 최초 과금(signup fee)에 성공하였습니다. (imp_uid : %s)', 'iamport-for-woocommerce' ) , $payment_data->imp_uid ) );
-
-			// 			$order->payment_complete( $payment_data->imp_uid );
-			// 		} else {
-			// 			$message = sprintf( __( '비인증 결제 최초 과금(signup fee)에 실패하였습니다. (status : %s)', 'iamport-for-woocommerce' ) , $payment_data->status );
-			// 			$order->add_order_note( $message );
-
-			// 			return new WP_Error( 'iamport_error', $message );
-			// 		}
-			// 	} else {
-			// 		$message = sprintf( __( '비인증 결제 최초 과금(signup fee)에 실패하였습니다. (사유 : %s)', 'iamport-for-woocommerce' ) , $result->error['message'] );
-			// 		$order->add_order_note( $message );
-
-			// 		return new WP_Error( 'iamport_error', $message );
-			// 	}
-			// } else {
-			// 	$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
-			// 	$result = $iamport->sbcr_again(array(
-			// 		'amount' => $amount,
-			// 		// 'vat' => 0,
-			// 		'merchant_uid' => $order->order_key.date('md'),
-			// 		'customer_uid' => $customer_uid,
-			// 		'name' => $this->get_order_name($order, $initial_payment),
-			// 		'buyer_name' => $order->billing_last_name . $order->billing_first_name,
-			// 		'buyer_email' => $order->billing_email,
-			// 		'buyer_tel' => $order->billing_phone
-			// 	));
-
-			// 	$payment_data = $result->data;
-			// 	if ( $result->success ) {
-			// 		if ( $payment_data->status == 'paid' ) {
-			// 			$order_id = $order->id;
-
-			// 			$this->_iamport_post_meta($order_id, '_iamport_rest_key', $this->imp_rest_key);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_rest_secret', $this->imp_rest_secret);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_provider', $payment_data->pg_provider);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_paymethod', $payment_data->pay_method);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_receipt_url', $payment_data->receipt_url);
-			// 			$this->_iamport_post_meta($order_id, '_iamport_customer_uid', $customer_uid);
-
-			// 			$order->add_order_note( sprintf( __( '비인증 결제 회차 과금(%s차결제)에 성공하였습니다. (imp_uid : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $payment_data->imp_uid ) );
-
-			// 			$order->payment_complete( $payment_data->imp_uid );
-			// 		} else {
-			// 			$message = sprintf( __( '비인증 결제 회차 과금(%s차결제)에 실패하였습니다. (status : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $payment_data->status );
-			// 			$order->add_order_note( $message );
-
-			// 			return new WP_Error( 'iamport_error', $message );
-			// 		}
-			// 	} else {
-			// 		$message = sprintf( __( '비인증 결제 회차 과금(%s차결제)에 실패하였습니다. (사유 : %s)', 'iamport-for-woocommerce' ) , $order->suspension_count, $result->error['message'] );
-
-			// 		$order->add_order_note( $message );
-
-			// 		return new WP_Error( 'iamport_error', $message );
-			// 	}
-			// }
-
-			// return $result;
+			return $result;
 		} catch(Exception $e) {
 			return new WP_Error( 'iamport_error', $e->getMessage() );
 		}
