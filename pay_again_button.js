@@ -1,11 +1,35 @@
 jQuery( document ).on( 'click', '.pay-again-delete-payment-button', function() {
 	if (confirm('정말로 등록된 카드를 삭제하시겠어요?')) {
 		var post_id = jQuery(this).data('id');
+		console.log('post_id : ' + post_id);
+		console.log('payagain.ajax_url : ' + payagain.ajax_url);
 		jQuery.ajax({
 			url : payagain.ajax_url,
 			type : 'post',
 			data : {
 				action : 'delete_pay_again_method',
+				post_id : post_id
+			},
+			success : function( response ) {
+				alert(response);
+				location.reload();
+			}
+		});
+	} else {
+		// Do nothing!
+	}
+})
+
+jQuery( document ).on( 'click', '.pay-again-delete-inicis-payment-button', function() {
+	if (confirm('정말로 등록된 카드를 삭제하시겠어요?')) {
+		var post_id = jQuery(this).data('id');
+		console.log('post_id : ' + post_id);
+		console.log('payagain.ajax_url : ' + payagain.ajax_url);
+		jQuery.ajax({
+			url : payagain.ajax_url,
+			type : 'post',
+			data : {
+				action : 'delete_pay_again_inicis_method',
 				post_id : post_id
 			},
 			success : function( response ) {
@@ -151,7 +175,7 @@ jQuery(function($) {
 							    // escrow : result.iamport.escrow,
 							    merchant_uid : result.iamport.merchant_uid,
 							    name : result.iamport.name,
-							    amount : 1,
+							    amount : parseInt(result.iamport.amount),
 							    buyer_email : result.iamport.buyer_email,
 							    buyer_name : result.iamport.buyer_name,
 							    buyer_tel : result.iamport.buyer_tel,

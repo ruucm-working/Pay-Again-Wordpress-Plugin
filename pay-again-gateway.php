@@ -60,7 +60,24 @@ function delete_pay_again_method() {
 	die();
 }
 
+add_action( 'wp_ajax_nopriv_delete_pay_again_inicis_method', 'delete_pay_again_inicis_method' );
+add_action( 'wp_ajax_delete_pay_again_inicis_method', 'delete_pay_again_inicis_method' );
+function delete_pay_again_inicis_method() {
+	$gateway_pay_again = new WC_Gateway_INICIS_Pay_Again();
+	$res = $gateway_pay_again->deleteCurrentPayAgainCustomer();
+	if ($res)
+		echo '카드정보 삭제에 성공했습니다';
+	else
+		echo '카드정보 삭제에 실패했습니다';
+	die();
+}
+
 function show_pay_again_payment_method_button( $atts ) {
 	include('template/template-billing-method-info.php');
 }
 add_shortcode('pay-again-billing-method-info', 'show_pay_again_payment_method_button');
+
+function show_pay_again_inicis_payment_method_button( $atts ) {
+	include('template/template-inicis-billing-method-info.php');
+}
+add_shortcode('pay-again-billing-inicis-method-info', 'show_pay_again_inicis_payment_method_button');

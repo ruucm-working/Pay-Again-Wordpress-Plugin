@@ -167,8 +167,6 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 			if ( is_wp_error($iamport_response) ) {
 				throw new Exception( sprintf( '비인증 결제 최초 과금(signup fee)에 실패하였습니다. (상세사유 : %s)' , $iamport_response->get_error_message() ) );
 			}
-			logw('$iamport_response : ');
-			logw_a($iamport_response);
 			return $iamport_response;
 		} else if ( $order->get_total() > 0 && !$this->is_first_payment() ) {
 
