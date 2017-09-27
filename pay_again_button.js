@@ -1,8 +1,6 @@
 jQuery( document ).on( 'click', '.pay-again-delete-payment-button', function() {
 	if (confirm('정말로 등록된 카드를 삭제하시겠어요?')) {
 		var post_id = jQuery(this).data('id');
-		console.log('post_id : ' + post_id);
-		console.log('payagain.ajax_url : ' + payagain.ajax_url);
 		jQuery.ajax({
 			url : payagain.ajax_url,
 			type : 'post',
@@ -23,8 +21,6 @@ jQuery( document ).on( 'click', '.pay-again-delete-payment-button', function() {
 jQuery( document ).on( 'click', '.pay-again-delete-inicis-payment-button', function() {
 	if (confirm('정말로 등록된 카드를 삭제하시겠어요?')) {
 		var post_id = jQuery(this).data('id');
-		console.log('post_id : ' + post_id);
-		console.log('payagain.ajax_url : ' + payagain.ajax_url);
 		jQuery.ajax({
 			url : payagain.ajax_url,
 			type : 'post',
@@ -106,22 +102,14 @@ jQuery(function($) {
 	function error_html(plain_message) {
 		return '<ul class="woocommerce-error">\n\t\t\t<li>' + plain_message + '<\/li>\n\t<\/ul>\n';
 	}
-		console.log('iamport_checkout_types :  ');
-		console.log(iamport_checkout_types);
 
 	$('form[name="checkout"]').on(iamport_checkout_types.join(' '), function() {
 
-		console.log('exist? ' + $('#inicis-register-card').length);
-
 		if ($('#inicis-register-card').length == 1) {
 
-			console.log('checkout!! ');
-			console.log(iamport_checkout_types.join(' '));
 			//woocommerce의 checkout.js의 기본동작을 그대로..woocommerce 버전바뀔 때마다 확인 필요
 			var $form = $(this),
 				gateway_name = $form.find('input[name="payment_method"]:checked').val();
-			console.log('$form : ');
-			console.log($form);
 
 			var pay_method = 'card',
 				prefix = 'iamport_';
@@ -133,12 +121,6 @@ jQuery(function($) {
 			$form.addClass( 'processing' );
 			var form_data = $form.data();
 
-			console.log('pay_method : ' + pay_method);
-			console.log('form_data : ');
-			console.log('wc_checkout_params : ');
-			console.log(wc_checkout_params);
-			console.log('form_data : ');
-			console.log(form_data);
 			if ( 1 !== form_data['blockUI.isBlocked'] ) {
 				$form.block({
 					message: null,
@@ -148,27 +130,18 @@ jQuery(function($) {
 					}
 				});
 			}
-			console.log('$form.serialize() : ');
-			console.log($form.serialize());
 			$.ajax({
 				type: 	'POST',
 				url: 	wc_checkout_params.checkout_url,
 				data: 	$form.serialize(),
 				dataType: 'json',
 				dataFilter : function(data) {
-					console.log('data : ');
-					console.log(data);
 					var wc_dummy = /<!--.*?-->/g;
-					console.log('dataFilter : ');
-					console.log(data.replace(wc_dummy, ''));
 					return data.replace(wc_dummy, '');
 				},
 				success: function( result ) {
-					console.log('result : ');
-					console.log(result);
 					try {
 						if ( result.result === 'success' ) {
-							console.log('parseInt(result.iamport.amount) : ' + parseInt(result.iamport.amount));
 							//iamport process
 							var req_param = {
 								pay_method : pay_method,
@@ -190,12 +163,8 @@ jQuery(function($) {
 
 							if ( result.iamport.pg )	req_param.pg = result.iamport.pg;
 
-							console.log('result.iamport.user_code : ' + result.iamport.user_code)
-
 							IMP.init(result.iamport.user_code);
 							IMP.request_pay(req_param, function(rsp) {
-								console.log('rsp : ');
-								console.log(rsp );
 								if ( rsp.success ) {
 									window.location.href = result.iamport.m_redirect_url + "&imp_uid=" + rsp.imp_uid; //IamportPlugin.check_payment_response() 에서 필수
 									alert('카드 등록에 성공 하였습니다.');

@@ -7,7 +7,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		$this->method_title = '나이스페이(비인증 결제)';
 		$this->method_description = '나이스페이 PG사와, 아임포트를 통해 비인증결제를 사용하실 수 있습니다.';
 		$this->has_fields = true;
-		$this->supports = array( 'subscriptions', 'subscription_reactivation', 'subscription_suspension', 'subscription_cancellation', 'refunds' );
 
 		$this->init_form_fields();
 		$this->init_settings();
@@ -22,7 +21,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
 		if ( class_exists( 'WC_Pay_Again_Order' ) ) {
-			add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array( $this, 'scheduled_subscription_payment' ), 10, 2 );
 			add_filter( 'woocommerce_credit_card_form_fields', array( $this, 'iamport_credit_card_form_fields' ), 10, 2);
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_iamport_script') );
 			add_action( 'a_action', array( $this, 'print_a' ), 10, 2 );	
@@ -30,10 +28,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 	}
 
 	public function enqueue_iamport_script() {
-		wp_register_script( 'iamport_pay_again_rsa', plugins_url( '/assets/js/rsa.bundle.js',plugin_basename(__FILE__) ));
-		wp_register_script( 'iamport_pay_again_script_for_woocommerce_rsa', plugins_url( '/assets/js/iamport.woocommerce.rsa.js',plugin_basename(__FILE__) ));
-		wp_enqueue_script('iamport_pay_again_rsa');
-
 		if ($this->is_first_payment())
 			wp_enqueue_script('iamport_pay_again_script_for_woocommerce_rsa');
 	}
@@ -113,7 +107,7 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		$private_key = $this->get_private_key();
 		$public_key = $this->get_public_key($private_key, $this->keyphrase());
 		?>
-		<div id="iamport-subscription-card-holder" data-module="<?=$public_key['module']?>" data-exponent="<?=$public_key['exponent']?>">
+		<div id="iamport-nicipay-card-holder" data-module="<?=$public_key['module']?>" data-exponent="<?=$public_key['exponent']?>">
 			<input type="hidden" name="enc_iamport_pay_again-card-number" value="">
 			<input type="hidden" name="enc_iamport_pay_again-card-expiry" value="">
 			<input type="hidden" name="enc_iamport_pay_again-card-birth" value="">
@@ -122,15 +116,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		</div>
 		<?php
 		ob_end_flush();
-	}
-
-	public function scheduled_subscription_payment( $amount_to_charge, $renewal_order ) {
-		error_log('######## SCHEDULED ########');
-		$response = $this->process_pay_again_payment( $renewal_order, $amount_to_charge );
-
-		if ( is_wp_error( $response ) ) {
-			$renewal_order->update_status( 'failed', sprintf( __( '비인증 결제승인에 실패하였습니다. (상세 : %s)', 'iamport-for-woocommerce' ), $response->get_error_message() ) );
-		}
 	}
 
 	public function process_payment( $order_id, $retry = true ) {
@@ -374,22 +359,6 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		}
 
 		return false;
-	}
-
-	public function cancelled_subscription($subscription) {
-		/* 동일한 사람이 여러 상품의 subscription도 할 수 있으므로 삭제하지 않는다.
-		require_once(dirname(__FILE__).'/lib/iamport.php');
-
-		$iamport = new WooIamport($this->imp_rest_key, $this->imp_rest_secret);
-		$customer_uid 	 = $this->get_customer_uid($subscription);
-
-		$result = $iamport->customer_delete($customer_uid);
-		if ( $result->success ) {
-			$subscription->add_order_note( '비인증 결제 등록정보를 삭제하였습니다.' );
-		} else {
-			$subscription->add_order_note( '비인증 결제 등록정보 삭제에 실패하였습니다.' );
-		}
-		*/
 	}
 
 	protected function get_order_name($order, $initial_payment) {

@@ -46,6 +46,20 @@ function pay_again_enque_scripts() {
 	));
 	wp_enqueue_style( 'payagain-ui-css', plugin_dir_url( __FILE__ ) . 'css/payagain-ui.css' );
 	wp_enqueue_style( 'payagain-ionicons', plugin_dir_url( __FILE__ ) . 'assets/ion-icon/ionicons.min.css', array() );
+
+	// Iamport Library
+	wp_register_script( 'iamport_script', 'https://service.iamport.kr/js/iamport.payment-1.1.2.js', array('jquery') );
+	wp_register_script( 'iamport_jquery_url', plugins_url( '/assets/js/url.min.js',plugin_basename(__FILE__) ));
+	wp_register_script( 'iamport_script_for_woocommerce', plugins_url( '/assets/js/iamport.woocommerce.js',plugin_basename(__FILE__) ), array('jquery'), '20170507');
+	wp_enqueue_script('iamport_script');
+	wp_enqueue_script('iamport_jquery_url');
+	wp_enqueue_script('iamport_script_for_woocommerce');
+
+
+	wp_register_script( 'iamport_pay_again_rsa', plugins_url( '/assets/js/rsa.bundle.js',plugin_basename(__FILE__) ));
+	wp_register_script( 'iamport_pay_again_script_for_woocommerce_rsa', plugins_url( '/assets/js/iamport.woocommerce.rsa.js',plugin_basename(__FILE__) ));
+	wp_enqueue_script('iamport_pay_again_rsa');
+
 }
 
 add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' );
