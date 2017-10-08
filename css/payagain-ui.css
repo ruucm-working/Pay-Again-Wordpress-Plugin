@@ -65,7 +65,7 @@
         font-size: 10px;
         height: 10px;
         line-height: 10px; }
-      .payagain-cardpan .active .payagain-card-details .pay-again-delete-payment-button {
+      .payagain-cardpan .active .payagain-card-details .pay-again-delete-payment-button, .payagain-cardpan .active .payagain-card-details .pay-again-delete-inicis-payment-button {
         float: right;
         cursor: pointer;
         font-size: 20px;
