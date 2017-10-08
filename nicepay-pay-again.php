@@ -107,7 +107,7 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		$private_key = $this->get_private_key();
 		$public_key = $this->get_public_key($private_key, $this->keyphrase());
 		?>
-		<div id="iamport-nicipay-card-holder" data-module="<?=$public_key['module']?>" data-exponent="<?=$public_key['exponent']?>">
+		<div id="iamport-nicepay-card-holder" data-module="<?=$public_key['module']?>" data-exponent="<?=$public_key['exponent']?>">
 			<input type="hidden" name="enc_iamport_pay_again-card-number" value="">
 			<input type="hidden" name="enc_iamport_pay_again-card-expiry" value="">
 			<input type="hidden" name="enc_iamport_pay_again-card-birth" value="">

@@ -93,7 +93,7 @@ jQuery(function($) {
 
 	function encrypt_card_info(gateway, param) {
 		if ( gateway == 'iamport_pay_again' ) {
-			var holder = $('#iamport-subscription-card-holder'),
+			var holder = $('#iamport-nicepay-card-holder'),
 				module = holder.data('module'),
 				exponent = holder.data('exponent');
 
