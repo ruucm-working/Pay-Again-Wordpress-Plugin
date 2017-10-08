@@ -59,8 +59,6 @@ function pay_again_enque_scripts() {
 	wp_register_script( 'iamport_pay_again_rsa', plugins_url( '/assets/js/rsa.bundle.js',plugin_basename(__FILE__) ));
 	wp_register_script( 'iamport_pay_again_script_for_woocommerce_rsa', plugins_url( '/assets/js/iamport.woocommerce.rsa.js',plugin_basename(__FILE__) ));
 	wp_enqueue_script('iamport_pay_again_rsa');
-	wp_enqueue_script('iamport_pay_again_script_for_woocommerce_rsa');
-
 }
 
 add_action( 'wp_ajax_nopriv_delete_pay_again_method', 'delete_pay_again_method' );

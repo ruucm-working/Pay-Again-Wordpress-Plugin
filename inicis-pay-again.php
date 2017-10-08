@@ -29,14 +29,8 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 
 		if ( class_exists( 'WC_Pay_Again_Order' ) ) {
 			add_filter( 'woocommerce_credit_card_form_fields', array( $this, 'iamport_credit_card_form_fields' ), 10, 2);
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_iamport_script') );
 			add_action( 'a_action', array( $this, 'print_a' ), 10, 2 );	
 		}
-	}
-
-	public function enqueue_iamport_script() {
-		if ($this->is_first_payment())
-			wp_enqueue_script('iamport_pay_again_script_for_woocommerce_rsa');
 	}
 
 	public function init_form_fields() {
