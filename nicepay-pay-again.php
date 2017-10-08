@@ -211,10 +211,10 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 			$customer_uid 	 = $this->get_customer_uid($order);
 
 			if ( $initial_payment ) {
-				$card_number 	= $_POST['enc_iamport_pay_again-card-number'];
-				$expiry 		= $_POST['enc_iamport_pay_again-card-expiry'];
-				$birth 			= $_POST['enc_iamport_pay_again-card-birth'];
-				$pwd_2digit 	= $_POST['enc_iamport_pay_again-card-pwd'];
+				$card_number 	= $this->clean($_POST['enc_iamport_pay_again-card-number']);
+				$expiry 		= $this->clean($_POST['enc_iamport_pay_again-card-expiry']);
+				$birth 			= $this->clean($_POST['enc_iamport_pay_again-card-birth']);
+				$pwd_2digit 	= $this->clean($_POST['enc_iamport_pay_again-card-pwd']);
 
 				$private_key = $this->get_private_key();
 
@@ -463,6 +463,11 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		}
 
 		return false;
+	}
+
+	private function clean($string) {
+		$string = str_replace(' ', '', $string); // Replaces all spaces.
+		return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 	}
 
 }
