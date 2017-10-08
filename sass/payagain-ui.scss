@@ -5,25 +5,36 @@
 @import 'payagain-responsive.scss';
 
 /**
+ *	Checkout
+ */
+#iamport-nicepay-card-holder {
+	.wc-credit-card-form {
+		padding-top: 30px;
+		padding-bottom: 30px;
+	}
+	// Make Same Height of Chekcout Card Info Input
+	.checkout-input-row1, .checkout-input-row2 {
+		display: table; /* Make the container element behave like a table */
+		width: 100%;
+		margin: 30px 0;
+		.col {
+			display: table-cell;
+			p {
+				width: 95%;
+			}
+		}
+	}
+}
+
+
+/**
  *	Hide Default Checkout Button
  */
 .woocommerce #place_order {
 	display: none;
 }
 
-/**
- *	Make Same Height of Chekcout Card Info Input
- */
-.checkout-input-row1, .checkout-input-row2 {
-	display: table; /* Make the container element behave like a table */
-	width: 100%;
-	.col {
-		display: table-cell;
-		p {
-			width: 100%;
-		}
-	}
-}
+
 
 /**
  *	Billing Method Info

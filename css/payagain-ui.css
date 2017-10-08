@@ -17,22 +17,26 @@
  *	IE10+ CSS styles go here
  */
 /**
+ *	Checkout
+ */
+#iamport-nicepay-card-holder .wc-credit-card-form {
+  padding-top: 30px;
+  padding-bottom: 30px; }
+#iamport-nicepay-card-holder .checkout-input-row1, #iamport-nicepay-card-holder .checkout-input-row2 {
+  display: table;
+  /* Make the container element behave like a table */
+  width: 100%;
+  margin: 30px 0; }
+  #iamport-nicepay-card-holder .checkout-input-row1 .col, #iamport-nicepay-card-holder .checkout-input-row2 .col {
+    display: table-cell; }
+    #iamport-nicepay-card-holder .checkout-input-row1 .col p, #iamport-nicepay-card-holder .checkout-input-row2 .col p {
+      width: 95%; }
+
+/**
  *	Hide Default Checkout Button
  */
 .woocommerce #place_order {
   display: none; }
-
-/**
- *	Make Same Height of Chekcout Card Info Input
- */
-.checkout-input-row1, .checkout-input-row2 {
-  display: table;
-  /* Make the container element behave like a table */
-  width: 100%; }
-  .checkout-input-row1 .col, .checkout-input-row2 .col {
-    display: table-cell; }
-    .checkout-input-row1 .col p, .checkout-input-row2 .col p {
-      width: 100%; }
 
 /**
  *	Billing Method Info

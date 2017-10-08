@@ -84,7 +84,7 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 				<input id="' . esc_attr( $id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" type="text" autocomplete="off" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-expiry' : '' ) . '" />
 				</p></div></div>',
 				'card-birth-field' => '<div class="checkout-input-row2"><div class="col"><p class="form-row form-row-first">
-				<label for="' . esc_attr( $id ) . '-card-birth">' . '카드소지자확인(생년월일 또는 사업자등록번호)' . ' <span class="required">*</span></label>
+				<label for="' . esc_attr( $id ) . '-card-birth">' . '카드소지자확인<br>(생년월일 또는 사업자등록번호)' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-birth" class="input-text wc-credit-card-form-card-birth" type="password" autocomplete="off" placeholder="' . '생년월일 또는 사업자등록번호(법인카드)' . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-birth' : '' ) . '" maxlength="10"/>
 				</p></div>',
 				'card-pwd-field' => '<div class="col"><p class="form-row form-row-last">
