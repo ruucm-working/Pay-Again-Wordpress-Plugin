@@ -25,7 +25,7 @@ function pay_again_button_text() {
 }
 
 /**
-* Add the Gateway to WooCommerce
+*	Add the Gateway to WooCommerce
 **/
 function woocommerce_add_pay_again_gateway($methods) {
 	$iamport_gateways[] = 'WC_Gateway_Pay_Again';
@@ -94,3 +94,36 @@ function show_pay_again_inicis_payment_method_button( $atts ) {
 	include('template/template-inicis-billing-method-info.php');
 }
 add_shortcode('pay-again-billing-inicis-method-info', 'show_pay_again_inicis_payment_method_button');
+
+/**
+ *	Add Custom Tab To Woocommerce
+ **/
+function my_custom_endpoints() {
+	add_rewrite_endpoint( 'billing-method-info', EP_ROOT | EP_PAGES );
+}
+add_action( 'init', 'my_custom_endpoints' );
+function my_custom_query_vars( $vars ) {
+	$vars[] = 'billing-method-info';
+
+	return $vars;
+}
+add_filter( 'query_vars', 'my_custom_query_vars', 0 );
+function my_custom_my_account_menu_items( $items ) {
+	// Remove the logout menu item.
+	$logout = $items['customer-logout'];
+	unset( $items['customer-logout'] );
+
+	// Insert your custom endpoint.
+	$items['billing-method-info'] = '결제 정보';
+
+	// Insert back the logout item.
+	$items['customer-logout'] = $logout;
+
+	return $items;
+}
+add_filter( 'woocommerce_account_menu_items', 'my_custom_my_account_menu_items' );
+function my_custom_endpoint_content() {
+	do_shortcode('[pay-again-billing-method-info]');
+	do_shortcode('[pay-again-billing-inicis-method-info]');
+}
+add_action( 'woocommerce_account_billing-method-info_endpoint', 'my_custom_endpoint_content' );
