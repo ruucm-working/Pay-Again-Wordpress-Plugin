@@ -40,7 +40,7 @@
 									echo substr($res->data->card_number, -4);
 								}
 								else
-									echo '카드 번호는 보안상 이유로 가려져 있습니다';
+									echo '<p class="hidden-cardnum-message">카드 번호는 보안상 이유로 가려져 있습니다</p>';
 								?>
 							</div>
 						</div>

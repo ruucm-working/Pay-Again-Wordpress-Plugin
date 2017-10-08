@@ -60,6 +60,8 @@
           font-size: 10px;
           height: 10px;
           line-height: 10px; }
+      .payagain-cardpan .active .payagain-card-details .hidden-cardnum-message {
+        font-size: 12px; }
       .payagain-cardpan .active .payagain-card-details .payagain-added-date {
         color: #a1a3a3;
         font-size: 10px;
