@@ -40,7 +40,7 @@ function woocommerce_add_pay_again_gateway($methods) {
  */
 add_action( 'wp_enqueue_scripts', 'pay_again_enque_scripts');
 function pay_again_enque_scripts() {
-	wp_enqueue_script( 'pay-again-button-js', plugin_dir_url( __FILE__ ) . 'pay_again_button.js', array(), false, true );
+	wp_enqueue_script( 'pay-again-button-js', plugin_dir_url( __FILE__ ) . 'assets/js/iamport.payagain.button.js', array(), false, true );
 	wp_localize_script( 'pay-again-button-js', 'payagain', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' )
 	));
