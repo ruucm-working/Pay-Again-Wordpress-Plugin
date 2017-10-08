@@ -75,22 +75,22 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 
 		if ($this->is_first_payment()) {
 			$iamoprt_fields = array(
-				'card-number-field' => '<p>처음 결제시만 카드번호 입력</p><p class="form-row form-row-first">
+				'card-number-field' => '<p>처음 결제시만 카드번호 입력</p><div class="checkout-input-row1"><div><p class="form-row form-row-first">
 				<label for="' . esc_attr( $id ) . '-card-number">' . '카드번호' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-number" class="input-text wc-credit-card-form-card-number" type="text" maxlength="20" autocomplete="off" placeholder="•••• •••• •••• ••••" name="' . ( $args['fields_have_names'] ? $this->id . '-card-number' : '' ) . '" />
-				</p>',
-				'card-expiry-field' => '<p class="form-row form-row-last">
+				</p></div>',
+				'card-expiry-field' => '<div><p class="form-row form-row-last">
 				<label for="' . esc_attr( $id ) . '-card-expiry">' . '만료일(MM/YY)' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-expiry" class="input-text wc-credit-card-form-card-expiry" type="text" autocomplete="off" placeholder="' . esc_attr__( 'MM / YY', 'woocommerce' ) . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-expiry' : '' ) . '" />
-				</p>',
-				'card-birth-field' => '<p class="form-row form-row-first">
+				</p></div></div>',
+				'card-birth-field' => '<div class="checkout-input-row2"><div class="col"><p class="form-row form-row-first">
 				<label for="' . esc_attr( $id ) . '-card-birth">' . '카드소지자확인(생년월일 또는 사업자등록번호)' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-birth" class="input-text wc-credit-card-form-card-birth" type="password" autocomplete="off" placeholder="' . '생년월일 또는 사업자등록번호(법인카드)' . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-birth' : '' ) . '" maxlength="10"/>
-				</p>',
-				'card-pwd-field' => '<p class="form-row form-row-last">
+				</p></div>',
+				'card-pwd-field' => '<div class="col"><p class="form-row form-row-last">
 				<label for="' . esc_attr( $id ) . '-card-pwd">' . '카드비밀번호 앞2자리' . ' <span class="required">*</span></label>
 				<input id="' . esc_attr( $id ) . '-card-pwd" class="input-text wc-credit-card-form-card-pwd" type="password" autocomplete="off" placeholder="' . esc_attr__( '카드비밀번호 앞2자리', 'iamport-for-woocommerce' ) . '" name="' . ( $args['fields_have_names'] ? $this->id . '-card-pwd' : '' ) . '" maxlength="2"/>
-				</p>',
+				</p></div></div>',
 				'add-card-button' => '<button class="button">최초 결제</button>'
 			);
 		} else {
