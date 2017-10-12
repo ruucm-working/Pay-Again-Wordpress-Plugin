@@ -169,7 +169,7 @@ jQuery(function($) {
 									window.location.href = result.iamport.m_redirect_url + "&imp_uid=" + rsp.imp_uid; //IamportPlugin.check_payment_response() 에서 필수
 									alert('카드 등록에 성공 하였습니다.');
 									// window.history.back();
-									window.location.reload();
+									location = location;
 								} else {
 									alert(rsp.error_msg);
 									// window.location.reload();
