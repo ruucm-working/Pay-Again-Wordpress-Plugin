@@ -12,7 +12,7 @@ class WC_Gateway_Pay_Again extends WC_Payment_Gateway {
 		$this->init_settings();
 
 		$this->title = $this->settings['title'];
-		$this->description = $this->settings['description'];
+		// $this->description = $this->settings['description'];
 
 		$this->imp_rest_key = $this->settings['imp_rest_key'];
 		$this->imp_rest_secret = $this->settings['imp_rest_secret'];

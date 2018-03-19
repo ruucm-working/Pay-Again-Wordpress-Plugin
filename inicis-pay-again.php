@@ -12,7 +12,7 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 		$this->init_settings();
 
 		$this->title = $this->settings['title'];
-		$this->description = $this->settings['description'];
+		// $this->description = $this->settings['description'];
 
 		$this->imp_rest_key = $this->settings['imp_rest_key'];
 		$this->imp_rest_secret = $this->settings['imp_rest_secret'];
@@ -114,7 +114,7 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 		global $woocommerce;
 
 		$order = new WC_Order( $order_id );
-		$order_name = $this->get_order_name($order);
+		$order_name = $this->get_order_name($order, '');
 		$redirect_url = add_query_arg( array('order_id'=>$order_id, 'wc-api'=>get_class( $this )), $order->get_checkout_payment_url());
 
 		$response = array(
@@ -327,6 +327,9 @@ class WC_Gateway_INICIS_Pay_Again extends WC_Payment_Gateway {
 	}
 
 	protected function get_order_name($order, $initial_payment) {
+		logw('hey');
+		logw('initial_payment');
+		logw_a($initial_payment);
 		if ( $initial_payment ) {
 			$order_name = "#" . $order->get_order_number() . "번 주문 비인증 결제(최초과금)";
 		} else {
